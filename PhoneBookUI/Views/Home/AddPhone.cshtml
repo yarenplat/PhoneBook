@@ -1,0 +1,130 @@
+﻿@model MemberPhoneViewModel
+@{
+    ViewData["Title"] = "AddPhone";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <form asp-controller="Home" asp-action="AddPhone" method="post">
+            <div class="text-danger" asp-validation-summary="All">  </div>
+
+            <div class="form-group">
+                <label>Telefon Tipi:</label>
+                <select class="form-control" asp-for="PhoneTypeId"
+                        id="phonetypeselect">
+
+@*                    <option value="0">Diğer</option>
+                    @foreach (PhoneTypeViewModel item in ViewBag.PhoneTypes)
+                    {
+                        if (ViewBag.FirstPhoneTypeId==item.Id)
+                        {
+                            <option value="@item.Id" selected>@item.Name</option>
+
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Name</option>
+
+                        }
+                    }
+*@
+
+                   @foreach (PhoneTypeViewModel item in ViewBag.PhoneTypes)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                    <option value="254">Diğer</option>
+
+                </select> <br />
+
+                <input type="text" class="form-control" id="anotherphonetype"
+                       placeholder="Telefon tipi giriniz..." asp-for="AnotherPhoneTypeName" />
+
+            </div> <br />
+
+            <div class="form-group">
+                <label>İsim Soyisim:</label>
+                <input type="text" class="form-control" asp-for="FriendNameSurname"
+                       required />
+            </div> <br />
+
+            <div class="form-group row">
+                <label>Telefon:</label>
+                <div class="col-3">
+                    <select class="form-control" asp-for="CountryCode">
+                        <option value="+90">+90 TÜRKİYE</option>
+                        <option value="+01">+01 AMERİKA</option>
+                        <option value="+44">+44 İNGİLTERE</option>
+                    </select>
+                </div>
+                <div class="col-9">
+
+                    <input type="text" class="form-control" asp-for="Phone"
+                           required />
+                </div>
+            </div> <br />
+
+            <div class="form-group">
+                <button type="submit"
+                        class="btn btn-primary container">
+                    KAYDET
+                </button>
+            </div> <br />
+            <input type="hidden" asp-for="MemberId" />
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            if (@ViewBag.PhoneTypes.Count== 0) {
+                $("#anotherphonetype").prop('disabled', false); // input aktif
+                $("#phonetypeselect").prop('disabled', true); // combo pasif
+            }
+            else {
+                //$("#anotherphonetype").prop('disabled', true); // input pasif
+                //$("#phonetypeselect").prop('disabled', false); // combo aktif
+
+                // selected valueyu ayaralama
+                //pır pır komut
+                //$("#phonetypeselect").val(@ViewBag.FirstPhoneTypeId).change();
+                var selectedOption = $("#phonetypeselect").val();
+                ChangeInputDisable(selectedOption);
+            }
+
+
+            $("#phonetypeselect").on("change", function () {
+                //combodan seçim yapıldığında bu fonk çalışacak
+                $("#anotherphonetype").val(''); // temizlik
+                //combodan neyi seçtiğine bakalım
+                //var selectedOption = $("#phonetypeselect").val();
+                var selectedOption = $(this).val(); // this keyword'ü phonetypeselect oluyor.
+                ChangeInputDisable(selectedOption);
+            }); // phonetypeselect change bitti
+
+
+
+            function ChangeInputDisable(optionValue) {
+                if (optionValue == 254) //combodan diğer'i seçti
+                {
+                    $("#anotherphonetype").prop('disabled', false); // input aktif
+                  
+                }
+                else {
+                    $("#anotherphonetype").prop('disabled', true); // input pasif
+                }
+            } // ChangeInputDisable fonk. burada bitti.
+
+
+
+
+
+        });// document ready burada bitti
+
+
+    </script>
+
+}

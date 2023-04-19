@@ -1,0 +1,62 @@
+﻿@model RegisterViewModel // bu sayfa bir model kullanacaktır
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h3>Şimdi Kayıt Olabilirsiniz</h3>
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <form asp-controller="Account" asp-action="Register" method="post">
+            <div class="text-danger"  asp-validation-summary="All">   </div>
+
+            <div class="form-group">
+                <label style="font-weight:bold">İsim:</label>
+                <input type="text" class="form-control" asp-for="Name" />
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div> <br />
+
+            <div class="form-group">
+                <label style="font-weight:bold">Soyisim:</label>
+                <input type="text" class="form-control"  name="Surname" />
+            </div> <br />
+
+            <div class="form-group">
+                <label style="font-weight:bold">Email:</label>
+                <input type="email" class="form-control"  asp-for="Email"/>
+            </div> <br />
+
+            <div class="form-group">
+                <label style="font-weight:bold">Şifre:</label>
+                <input type="password" class="form-control" name="Password" />
+            </div> <br />
+
+            <div class="form-group">
+                <label style="font-weight:bold">Şifre Tekrar:</label>
+                <input type="password" class="form-control" asp-for="ComparePassword"/>
+            </div> <br />
+
+            <div class="form-group">
+                <label style="font-weight:bold">Doğum Tarihi:</label>
+                <input type="date" class="form-control" name="BirthDate"/>
+            </div> <br />
+
+            <div class="form-group">
+                <label style="font-weight:bold">Cinsiyet:</label>
+               <select  class="form-control"  asp-for="Gender">
+                   <option  value="1">Kadın</option>
+                   <option value="2">Erkek</option>
+               </select>
+            </div> <br />
+
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-info">KAYIT OL</button>
+              <a asp-controller="Account" asp-action="Login" class=" btn btn-danger">GİRİŞ YAP</a>
+            </div> <br />
+
+        </form>
+
+    </div>
+</div>

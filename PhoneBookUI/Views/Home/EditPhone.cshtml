@@ -1,0 +1,65 @@
+﻿@model PhoneBookEntityLayer.ViewModels.MemberPhoneViewModel
+
+@{
+    ViewData["Title"] = "EditPhone";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <h4>@Model.FriendNameSurname</h4>
+        <hr />
+        <form asp-action="EditPhone" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+          
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <input type="hidden" asp-for="MemberId" />
+            <input type="hidden" asp-for="IsRemoved" />
+
+           
+            <div class="form-group">
+                <label asp-for="FriendNameSurname" class="control-label"></label>
+                <input asp-for="FriendNameSurname" class="form-control" />
+                <span asp-validation-for="FriendNameSurname" class="text-danger"></span>
+            </div>
+            <div class="form-group"> 
+                <label class="control-label">Telefon Tür:</label>
+                <select class="form-control" asp-for="PhoneTypeId">
+                    @foreach (PhoneTypeViewModel item in ViewBag.PhoneTypes)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                
+                </select>
+            </div>
+
+            <div class="form-group row">
+                <label>Telefon:</label>
+                <div class="col-3">
+                    <select class="form-control" asp-for="CountryCode">
+                        <option value="+90">+90 TÜRKİYE</option>
+                        <option value="+01">+01 AMERİKA</option>
+                        <option value="+44">+44 İNGİLTERE</option>
+                    </select>
+                </div>
+                <div class="col-9">
+
+                    <input type="text" class="form-control" asp-for="Phone"
+                           required />
+                </div>
+            </div> <br />
+           
+            <div class="form-group">
+                <input type="submit" value="GÜNCELLE" class="btn btn-primary" />
+            </div>
+            <div class="form-group">
+                <a asp-action="Index">Geri Dön</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

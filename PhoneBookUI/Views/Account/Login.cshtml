@@ -1,0 +1,54 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Hoşgeldiniz...Sisteme Giriş Yapabilirsiniz </h3>
+
+<div class="col-md-6 offset-3">
+    @if (TempData["RegisterSuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+           @* <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>*@
+            <i class="bi bi-check-circle-fill"></i>
+            @TempData["RegisterSuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+    }
+
+    @if (ViewBag.LoginErrorMsg != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @* <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>*@
+            <i class="bi bi-check-circle-fill"></i>
+            @ViewBag.LoginErrorMsg
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+
+    <form asp-controller="Account" asp-action="Login" method="post">
+
+        <div class="text-danger" asp-validation-summary="All">   </div>
+
+        <div class="form-group">
+            <label style="font-weight:bold">Email:</label>
+            <input type="text" class="form-control" asp-for="Email" />
+        </div> <br />
+        <div class="form-group">
+            <label style="font-weight:bold">Password:</label>
+            <input type="password" class="form-control" asp-for="Password" />
+        </div> <br />
+        <div class="form-group">
+            <button type="submit" class="btn btn-info">
+                GİRİŞ YAP
+            </button>
+            <a  asp-controller="Account" asp-action="Register" class=" btn btn-danger">KAYIT OL</a>
+        </div> <br />
+
+    </form>
+
+</div>
+

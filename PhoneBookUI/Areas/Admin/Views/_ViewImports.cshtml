@@ -1,0 +1,13 @@
+﻿@*cshtml dosyalarının içinde @model tanımlamasından önce
+using ile yazdığınız buraya eklerseniz bütün cshtml'ler görür.
+Böylece her sayfada using kullanmak zorunda kalmazsınız.*@
+@using PhoneBookUI
+@using PhoneBookUI.Models
+@using PhoneBookEntityLayer.ViewModels
+@using PhoneBookUI.Areas.Admin.Models
+
+@*
+asp-for asp-action asp-controller vb. şeklindeki
+MVC Core ile gelen TAGHELPER'ları kullanabilmemiz için @addTagHelper'ı burada tanımlıyoruz.*@
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
