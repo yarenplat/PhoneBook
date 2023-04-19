@@ -36,45 +36,51 @@
             @foreach (var item in Model)
             {
                 <li>
-                    @if (item.Picture == null)
-                    {
-                        if (item.Gender == 1)//kadin
+                    <a href="/admin/duzenle?id=@item.Email">
+                        @if (item.Picture == null)
                         {
-                            <img src="~/MemberPictures/kadin.jpg" alt="User Image" />
-                        }
-                        else
-                        {
-                            <img src="~/MemberPictures/erkek.jpg" alt="User Image" />
-                        }
-
-
-                    }
-                    else
-                    {
-                        <img src="@item.Picture" alt="User Image">
-
-                    }
-                    <a class="users-list-name"
-                       href="/admin/duzenle?id=@item.Email"
-                       style="font-weight:bold;">
-                        @item.Name @item.Surname.ToUpper()
-                    </a>
-                    <span class="users-list-date" style="color:rebeccapurple">
-                        @{
-                            TimeSpan span = new TimeSpan();
-                            span = DateTime.Now - item.CreatedDate;
-                            var days = Convert.ToInt32(span.TotalDays);
-                            string result = string.Empty;
-                            if (days == 0)
+                            if (item.Gender == 1) //kadın
                             {
-                                result = "Yeni Üye";
+                                <img src="~/MemberPictures/anonimKadin.jpg"
+                                     alt="User Image">
+
                             }
                             else
                             {
-                                result = $"{days} Gündür Üye";
+                                <img src="~/MemberPictures/anonimErkek.jpg"
+                                     alt="User Image">
                             }
-                        }@result
-                    </span>
+
+                        }
+                        else
+                        {
+                            <img src="@item.Picture" alt="User Image">
+
+                        }
+
+
+                        <br />
+                        <span style="font-weight:bold;color:black;">
+                            @item.Name @item.Surname.ToUpper()
+                        </span>
+                        <span class="users-list-date text-danger">
+                            @{
+
+                                TimeSpan span = new TimeSpan();
+                                span = DateTime.Now - item.CreatedDate;
+                                var days = Convert.ToInt32(span.TotalDays);
+                                string result = string.Empty;
+                                if (days == 0)
+                                {
+                                    result = "Yeni Üye";
+                                }
+                                else
+                                {
+                                    result = $"{days} Gündür Üye";
+                                }
+                            } @result
+                        </span>
+                    </a>
                 </li>
             }
         </ul>

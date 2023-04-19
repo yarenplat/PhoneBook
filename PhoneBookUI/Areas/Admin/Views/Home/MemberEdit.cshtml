@@ -1,51 +1,91 @@
-﻿@model MemberViewModel
+﻿@model ICollection<MemberViewModel>
 @{
-    ViewData["Title"] = "MemberEdit";
+    ViewData["Title"] = "MemberIndex";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h3>Üye Bilgileri</h3>
+@if (TempData["MemberEditSuccessMsg"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @*<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill" /></svg>*@
+        @TempData["MemberEditSuccessMsg"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
 
-<div class="row">
-    <form asp-area="admin" asp-controller="Home" asp-action="MemberEdit" method="post" enctype="multipart/form-data">
+<h3>Sistemdeki Tüm Üyeler</h3>
 
-        <div class="text-danger" asp-validation-summary="All"></div>
+<!-- USERS LIST -->
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Üye Bilgileri</h3>
 
-        <input type="hidden" asp-for="Email" />
+        <div class="card-tools">
+            <span class="badge badge-danger">Toplam @Model.Count Üye</span>
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <ul class="users-list clearfix" id="uyeList">
+            @foreach (var item in Model)
+            {
+                <li>
+                    @if (item.Picture == null)
+                    {
+                        if (item.Gender == 1)//kadin
+                        {
+                            <img src="~/Memberpictures/anonimKadin.jpg" alt="User Image" />
+                        }
+                        else
+                        {
+                            <img src="~/Memberpictures/anonimErkek.jpg" alt="User Image" />
+                        }
 
-        <div class="form-group">
-            <label style="font-weight:bold">İsim:</label>
-            <input type="text" class="form-control" asp-for="Name" />
-            <span class="text-danger" asp-validation-for="Name"></span>
-        </div> <br />
 
-        <div class="form-group">
-            <label style="font-weight:bold">Soyisim:</label>
-            <input type="text" class="form-control" asp-for="Surname" />
-        </div> <br />
+                    }
+                    else
+                    {
+                        <img src="@item.Picture" alt="User Image">
 
-        <div class="form-group">
-            <label style="font-weight:bold">Doğum Tarihi:</label>
-            <input type="date" class="form-control" asp-for="BirthDate" />
-        </div> <br />
-
-        <div class="form-group">
-            <label style="font-weight:bold">Cinsiyet:</label>
-            <select class="form-control" asp-for="Gender">
-                <option value="1">Kadın</option>
-                <option value="2">Erkek</option>
-            </select>
-        </div> <br />
-
-        <div class="form-group">
-            <label style="font-weight:bold">Resim:</label>
-            <input type="file" class="form-control" asp-for="UploadPicture" />
-        </div> <br />
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-info">GÜNCELLE</button>
-
-        </div> <br />
-
-    </form>
+                    }
+                    <a class="users-list-name"
+                       href="/admin/duzenle?id=@item.Email"
+                       style="font-weight:bold;">
+                        @item.Name @item.Surname.ToUpper()
+                    </a>
+                    <span class="users-list-date" style="color:rebeccapurple">
+                        @{
+                            TimeSpan span = new TimeSpan();
+                            span = DateTime.Now - item.CreatedDate;
+                            var days = Convert.ToInt32(span.TotalDays);
+                            string result = string.Empty;
+                            if (days == 0)
+                            {
+                                result = "Yeni Üye";
+                            }
+                            else
+                            {
+                                result = $"{days} Gündür Üye";
+                            }
+                        }@result
+                    </span>
+                </li>
+            }
+        </ul>
+        <!-- /.users-list -->
+    </div>
+    <!-- /.card-body -->
 </div>
+<!--/.card -->
+@section PageCss{
+    #uyeList li img{
+        width:160px !important;
+        height:160px !important;
+    }
+}
